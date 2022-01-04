@@ -32,7 +32,10 @@ export default class Ability {
 	public static Config(config: IAbilityConfig) {
 		try {
 			const score = this.checkAbilityScore(config.score)
-			return new Ability(config.name, score);
+			if(score === config.score) {
+				return new Ability(config.name, score);
+			}
+			
 		} catch (error) {
 			if(error instanceof Error){
 				console.log(error)

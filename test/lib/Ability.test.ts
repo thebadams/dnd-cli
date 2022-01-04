@@ -6,14 +6,28 @@ describe('Ability Class', () => {
 	})
 	describe('Static Config Method', () => {
 		const abilityConfig : IAbilityConfig = {
-			name: Abilities.STR
+			name: Abilities.STR,
+			score: 18
 		}
-		const newAbility : Ability = Ability.Config(abilityConfig);
+		const invalidAbilityConfig: IAbilityConfig = {
+			name: Abilities.WIS,
+			score: 0
+		}
+		const newAbility : Ability | undefined = Ability.Config(abilityConfig);
+		const badNewAbility : Ability | undefined = Ability.Config(invalidAbilityConfig)
 		test('Ability Should Have A Static Method, Config, That Returns A New Instance Of the Ability Class', () =>{
 			expect(newAbility).toBeInstanceOf(Ability);
 		});
 		test('newAbility Should Have A Property, name, Equal to Abilities.STR', () => {
 			expect(newAbility).toHaveProperty('name', Abilities.STR);
 		});
+		test('newAbility Should Have Property, score equal to the number 18', () => {
+			expect(newAbility).toHaveProperty('score', 18);
+		})
+		describe('Bad Ability Config', () => {
+			test('When an invalid score is passed in, badNewAbility should be undefined', () => {
+				expect(badNewAbility).toBeUndefined()
+			})
+		})
 	});
 });
