@@ -55,10 +55,12 @@ describe('Ability Class', () => {
 		let wisMod: number
 		let checkProficiency: boolean
 		let saveProficiency: boolean
+		let score: number
 		if(wis instanceof Ability) {
 			wisMod = wis.modifier
 			checkProficiency = wis.checkProficiency
 			saveProficiency = wis.saveProficiency
+			score = wis.score
 		}
 		describe('Modifier Getter', () => {
 			test('The wis instance of the Ability class should have a public getter, modifier, that correctly returns 3 as the ability score modifier', () => {
@@ -75,5 +77,10 @@ describe('Ability Class', () => {
 				expect(saveProficiency).toBe(true);
 			});
 		});
+		describe('score Getter', () => {
+			test('score Getter should get the number 17', () => {
+				expect(score).toBe(17);
+			})
+		})
 	});
 });
