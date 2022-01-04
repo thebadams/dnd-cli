@@ -29,8 +29,7 @@ export default class Ability {
 		this.score = score,
 		this.proficiencies = proficiencies
 	}
-	private static ABILITIES = Abilities
-	private static checkAbilityScore(score: number) {
+	private static CheckAbilityScore(score: number) {
 		if(score > 0) {
 			return score
 		} else {
@@ -39,7 +38,7 @@ export default class Ability {
 	}
 	public static Config(config: IAbilityConfig) {
 		try {
-			const score = this.checkAbilityScore(config.score)
+			const score = this.CheckAbilityScore(config.score)
 			if(score === config.score) {
 				return new Ability(config.name, score, config.proficiencies);
 			}
@@ -48,9 +47,15 @@ export default class Ability {
 			if(error instanceof Error){
 				console.log(error.message)
 				return
-			}
-			
-		}
-		
+			}	
+		}	
+	}
+	public get modifier() : number {
+		const modifier: number = this.calculateModifier(this.score);
+		return modifier;
+	}
+	private calculateModifier(score: number) : number {
+		const modifier = Math.floor((score - 10) / 2)
+		return modifier
 	}
 }
