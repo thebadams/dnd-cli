@@ -58,4 +58,12 @@ export default class Ability {
 		const modifier = Math.floor((score - 10) / 2)
 		return modifier
 	}
+
+	public get checkProficiency() : boolean {
+		return this.proficiencies.check
+	}
+
+	public get saveProficiency() : boolean {
+		return this.proficiencies.save
+	}
 }
