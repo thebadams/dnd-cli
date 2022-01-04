@@ -15,13 +15,55 @@ export interface IAbilityConfig {
 	proficiencies: IProficiencyConfig;
 }
 
-interface IProficiencyConfig {
+export interface IProficiencyConfig {
 	check: boolean;
 	save: boolean;
 }
 
+export interface IStrengthConfig extends IAbilityConfig {
+	name: Abilities.STR;
+}
+
+export interface IDexterityConfig extends IAbilityConfig {
+	name: Abilities.DEX
+}
+
+export interface IConstitutionConfig extends IAbilityConfig {
+	name: Abilities.CON
+}
+
+export interface IIntelligenceConfig extends IAbilityConfig {
+	name: Abilities.INT
+}
+
+export interface IWisdomConfig extends IAbilityConfig {
+	name: Abilities.WIS
+}
+
+export interface ICharismaConfig extends IAbilityConfig {
+	name: Abilities.CHA
+}
+
+export type TAbilityConfigs = [
+	strConfig: IStrengthConfig,
+	dexConfig: IDexterityConfig,
+	conConfig: IConstitutionConfig,
+	intConfig: IIntelligenceConfig, wisConfig: IWisdomConfig,
+	chaConfig: ICharismaConfig
+];
+
+export type TAbilities = [
+	strAbility: Ability,
+	dexAbility: Ability,
+	conAbility: Ability,
+	intAbility: Ability,
+	wisAbility: Ability,
+	chaAbiltiy: Ability
+]
+
+
 export default class Ability {
-	private _name: abilities;
+	protected _name: abilities;
 	private _score: number;
 	private proficiencies: IProficiencyConfig;
 	constructor(name: abilities, score: number, proficiencies: IProficiencyConfig) {
@@ -35,6 +77,18 @@ export default class Ability {
 		} else {
 			throw Error('Invalid Score, Must Be a Positive Number')
 		}
+	}
+	public static CheckConfig(config: IAbilityConfig) {
+		try {
+			this.CheckAbilityScore(config.score);
+			return true
+		} catch (error) {
+			if(error instanceof Error) {
+				console.log(error.message);
+				return false
+			}
+		}
+		
 	}
 	public static Config(config: IAbilityConfig) {
 		try {
@@ -89,5 +143,13 @@ export default class Ability {
 
 	public increaseScore(value: number) : void {
 		this.score = (this.score + value);
+	}
+}
+const strAbilityConfig : IStrengthConfig = {
+	name: Abilities.STR,
+	score: 18,
+	proficiencies: {
+		check: false,
+		save: true
 	}
 }
