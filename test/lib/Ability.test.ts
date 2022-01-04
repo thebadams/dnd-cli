@@ -93,7 +93,19 @@ describe('Ability Class', () => {
 			test('Check proficiency setter should change the value of the proficiency to the passed in value', () => {
 				expect(newCheckProf).toBe(true);
 				expect(newCheckProf).not.toEqual(checkProficiency)
-			})
-		})
+			});
+		});
+		describe('saveProficiency setter', () => {
+			let newSaveProf: boolean
+			if (wis instanceof Ability) {
+				wis.saveProficiency = false
+				newSaveProf = wis.saveProficiency
+			}
+			test('Save proficiency setter should change the value of the proficiency to the passed in value', () => {
+				
+				expect(newSaveProf).toBe(false);
+				expect(newSaveProf).not.toEqual(saveProficiency);
+			});
+		});
 	});
 });
