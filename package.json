@@ -1,0 +1,19 @@
+{
+  "name": "dnd-cli",
+  "version": "1.0.0",
+  "description": "A CLI based DnD 5e application",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thebadams/dnd-cli.git"
+  },
+  "author": "thebadams",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thebadams/dnd-cli/issues"
+  },
+  "homepage": "https://github.com/thebadams/dnd-cli#readme"
+}
