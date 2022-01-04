@@ -7,11 +7,19 @@ describe('Ability Class', () => {
 	describe('Static Config Method', () => {
 		const abilityConfig : IAbilityConfig = {
 			name: Abilities.STR,
-			score: 18
+			score: 18,
+			proficiencies: {
+				check: false,
+				save: true
+			}
 		}
 		const invalidAbilityConfig: IAbilityConfig = {
 			name: Abilities.WIS,
-			score: 0
+			score: 0,
+			proficiencies: {
+				check: false,
+				save: true
+			}
 		}
 		const newAbility : Ability | undefined = Ability.Config(abilityConfig);
 		const badNewAbility : Ability | undefined = Ability.Config(invalidAbilityConfig)
@@ -23,6 +31,9 @@ describe('Ability Class', () => {
 		});
 		test('newAbility Should Have Property, score equal to the number 18', () => {
 			expect(newAbility).toHaveProperty('score', 18);
+		});
+		test('newAbility Should Have Property, proficiencies, equal to abilityConfig.proficiencies', () => {
+			expect(newAbility).toHaveProperty('proficiencies', abilityConfig.proficiencies)
 		})
 		describe('Bad Ability Config', () => {
 			test('When an invalid score is passed in, badNewAbility should be undefined', () => {
