@@ -1,6 +1,6 @@
 export default class Character {
 	constructor() {}
-	public static Config() {
+	public static Config() : Character {
 		return new Character()
 	}
 }
