@@ -1,4 +1,4 @@
-import Ability, { Abilities, IAbilityConfig } from '../../src/lib/Ability';
+import Ability, { abilities, Abilities, IAbilityConfig } from '../../src/lib/Ability';
 
 describe('Ability Class', () => {
 	test('Ability Should Exist', () => {
@@ -26,8 +26,8 @@ describe('Ability Class', () => {
 		test('Ability Should Have A Static Method, Config, That Returns A New Instance Of the Ability Class', () =>{
 			expect(newAbility).toBeInstanceOf(Ability);
 		});
-		test('newAbility Should Have A Property, name, Equal to Abilities.STR', () => {
-			expect(newAbility).toHaveProperty('name', Abilities.STR);
+		test('newAbility Should Have A Property, _name, Equal to Abilities.STR', () => {
+			expect(newAbility).toHaveProperty('_name', Abilities.STR);
 		});
 		test('newAbility Should Have Property, _score equal to the number 18', () => {
 			expect(newAbility).toHaveProperty('_score', 18);
@@ -56,11 +56,13 @@ describe('Ability Class', () => {
 		let checkProficiency: boolean
 		let saveProficiency: boolean
 		let score: number
+		let name: abilities
 		if(wis instanceof Ability) {
 			wisMod = wis.modifier
 			checkProficiency = wis.checkProficiency
 			saveProficiency = wis.saveProficiency
 			score = wis.score
+			name = wis.name
 		}
 		describe('Modifier Getter', () => {
 			test('The wis instance of the Ability class should have a public getter, modifier, that correctly returns 3 as the ability score modifier', () => {
@@ -80,6 +82,11 @@ describe('Ability Class', () => {
 		describe('score Getter', () => {
 			test('score Getter should get the number 17', () => {
 				expect(score).toBe(17);
+			})
+		})
+		describe('name Getter', () => {
+			test('name should be equal to Abilities.WIS', () => {
+				expect(name).toEqual(Abilities.WIS)
 			})
 		})
 		describe('checkProficiency setter', () => {
@@ -107,5 +114,17 @@ describe('Ability Class', () => {
 				expect(newSaveProf).not.toEqual(saveProficiency);
 			});
 		});
+		describe('increaseScore method', () => {
+			let newScore: number
+			if(wis instanceof Ability) {
+				wis.increaseScore(1);
+				newScore = wis.score
+			}
+			test('increase score method should increase the score by 1', () => {
+				expect(newScore).toBe(18);
+				expect(newScore).not.toEqual(score)
+				expect(newScore).toBe(score + 1)
+			})
+		})
 	});
 });
