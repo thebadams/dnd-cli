@@ -12,14 +12,22 @@ export type abilities = 'Strength' | 'Dexterity' | 'Constitution' | 'Intelligenc
 export interface IAbilityConfig {
 	name: abilities;
 	score: number;
+	proficiencies: IProficiencyConfig;
+}
+
+interface IProficiencyConfig {
+	check: boolean;
+	save: boolean;
 }
 
 export default class Ability {
-	name: abilities;
-	score: number;
-	constructor(name: abilities, score: number) {
+	private name: abilities;
+	private score: number;
+	private proficiencies: IProficiencyConfig;
+	constructor(name: abilities, score: number, proficiencies: IProficiencyConfig) {
 		this.name = name,
-		this.score = score
+		this.score = score,
+		this.proficiencies = proficiencies
 	}
 	private static ABILITIES = Abilities
 	private static checkAbilityScore(score: number) {
@@ -33,12 +41,12 @@ export default class Ability {
 		try {
 			const score = this.checkAbilityScore(config.score)
 			if(score === config.score) {
-				return new Ability(config.name, score);
+				return new Ability(config.name, score, config.proficiencies);
 			}
 			
 		} catch (error) {
 			if(error instanceof Error){
-				console.log(error)
+				console.log(error.message)
 				return
 			}
 			
