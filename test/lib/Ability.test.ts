@@ -41,4 +41,25 @@ describe('Ability Class', () => {
 			})
 		})
 	});
+	describe('Modifier Getter', () => {
+		const abilityConfig : IAbilityConfig = {
+			name: Abilities.WIS,
+			score: 17,
+			proficiencies: {
+				check: false,
+				save: true
+			}
+		}
+
+		const wis = Ability.Config(abilityConfig)
+		let wisMod: number
+		if(wis instanceof Ability) {
+			wisMod = wis.modifier
+		}
+	
+		test('The wis instance of the Ability class should have a public getter, modifier, that correctly returns 3 as the ability score modifier', () => {
+				expect(wisMod).toBe(3);
+			
+		})
+	})
 });
