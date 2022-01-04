@@ -4,7 +4,10 @@
   "description": "A CLI based DnD 5e application",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+		"test:watch": "jest --watch",
+		"start": "node dist/index.js",
+		"start:dev": "ts-node src/index.ts"
   },
   "repository": {
     "type": "git",
