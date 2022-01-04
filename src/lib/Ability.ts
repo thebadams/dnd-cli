@@ -84,6 +84,6 @@ export default class Ability {
 	}
 
 	public increaseScore(value: number) : void {
-		this.score = this.score + value;
+		this.score = (this.score + value);
 	}
 }

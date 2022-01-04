@@ -82,5 +82,18 @@ describe('Ability Class', () => {
 				expect(score).toBe(17);
 			})
 		})
+		describe('checkProficiency setter', () => {
+			let newCheckProf:boolean
+			if(wis instanceof Ability) {
+				wis.checkProficiency = true;
+				newCheckProf = wis.checkProficiency
+			}
+			
+			
+			test('Check proficiency setter should change the value of the proficiency to the passed in value', () => {
+				expect(newCheckProf).toBe(true);
+				expect(newCheckProf).not.toEqual(checkProficiency)
+			})
+		})
 	});
 });
