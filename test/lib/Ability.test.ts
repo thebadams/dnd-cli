@@ -29,8 +29,8 @@ describe('Ability Class', () => {
 		test('newAbility Should Have A Property, name, Equal to Abilities.STR', () => {
 			expect(newAbility).toHaveProperty('name', Abilities.STR);
 		});
-		test('newAbility Should Have Property, score equal to the number 18', () => {
-			expect(newAbility).toHaveProperty('score', 18);
+		test('newAbility Should Have Property, _score equal to the number 18', () => {
+			expect(newAbility).toHaveProperty('_score', 18);
 		});
 		test('newAbility Should Have Property, proficiencies, equal to abilityConfig.proficiencies', () => {
 			expect(newAbility).toHaveProperty('proficiencies', abilityConfig.proficiencies)
@@ -41,7 +41,7 @@ describe('Ability Class', () => {
 			})
 		})
 	});
-	describe('Modifier Getter', () => {
+	describe('Getters and Setters', () => {
 		const abilityConfig : IAbilityConfig = {
 			name: Abilities.WIS,
 			score: 17,
@@ -53,13 +53,27 @@ describe('Ability Class', () => {
 
 		const wis = Ability.Config(abilityConfig)
 		let wisMod: number
+		let checkProficiency: boolean
+		let saveProficiency: boolean
 		if(wis instanceof Ability) {
 			wisMod = wis.modifier
+			checkProficiency = wis.checkProficiency
+			saveProficiency = wis.saveProficiency
 		}
-	
-		test('The wis instance of the Ability class should have a public getter, modifier, that correctly returns 3 as the ability score modifier', () => {
+		describe('Modifier Getter', () => {
+			test('The wis instance of the Ability class should have a public getter, modifier, that correctly returns 3 as the ability score modifier', () => {
 				expect(wisMod).toBe(3);
-			
+			})
 		})
-	})
+		describe('checkProficiency Getter', () => {
+			test('checkProficiency Getter Should return the boolean false', () => {
+				expect(checkProficiency).toBe(false)
+			});
+		});
+		describe('saveProficiency Getter', () => {
+			test('saveProficiency should be the boolean true', () => {
+				expect(saveProficiency).toBe(true);
+			});
+		});
+	});
 });

@@ -22,11 +22,11 @@ interface IProficiencyConfig {
 
 export default class Ability {
 	private name: abilities;
-	private score: number;
+	private _score: number;
 	private proficiencies: IProficiencyConfig;
 	constructor(name: abilities, score: number, proficiencies: IProficiencyConfig) {
 		this.name = name,
-		this.score = score,
+		this._score = score,
 		this.proficiencies = proficiencies
 	}
 	private static CheckAbilityScore(score: number) {
@@ -65,5 +65,25 @@ export default class Ability {
 
 	public get saveProficiency() : boolean {
 		return this.proficiencies.save
+	}
+
+	public set checkProficiency(value: boolean) {
+		this.proficiencies.check = value
+	}
+
+	public set saveProficiency(value: boolean) {
+		this.proficiencies.save = value
+	}
+
+	public get score() : number {
+		return this._score
+	}
+	
+	private set score(value: number) {
+		this._score = value
+	}
+
+	public increaseScore(value: number) : void {
+		this.score = this.score + value;
 	}
 }
