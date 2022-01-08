@@ -1,4 +1,4 @@
-enum Abilities {
+export enum Abilities {
 	STR = 'Strength',
 	DEX = 'Dexterity',
 	CON = 'Constitution',
@@ -25,13 +25,13 @@ interface IAbility {
 
 }
 
-interface IAbilityConfig {
+export interface IAbilityConfig {
 	name? : Abilities;
 	proficiencies? : IProficiency;
 	score?: number;
 }
 
-interface IStrConfig extends IAbilityConfig {
+export interface IStrConfig extends IAbilityConfig {
 	name: Abilities.STR
 }
 
@@ -65,22 +65,25 @@ export default class Ability implements IAbility {
 	// constructor() {
 	// }
 
-	public static Create(config: IAbilityConfig ) : Ability {
+	public static Create(config?: IAbilityConfig ) : Ability {
 		const newAbility = new Ability();
-		if(config.name){
-			newAbility.#name = config.name
-		}
-		if(config.proficiencies) {
-			newAbility.#proficiencies = config.proficiencies
-		}
-
-		if(config.score){
-			const validScore = this.#checkScore(config.score)
-			if(validScore){
-				newAbility.#score = config.score
+		if(config){
+			if (config.name) {
+				newAbility.#name = config.name
 			}
-			
+			if (config.proficiencies) {
+				newAbility.#proficiencies = config.proficiencies
+			}
+
+			if (config.score) {
+				const validScore = this.#checkScore(config.score)
+				if (validScore) {
+					newAbility.#score = config.score
+				}
+
+			}
 		}
+		
 
 		return newAbility;
 		

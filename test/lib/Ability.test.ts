@@ -1,130 +1,91 @@
-import Ability, { abilities, Abilities, IAbilityConfig } from '../../src/lib/Ability';
+import Ability, {IStrConfig, IAbilityConfig, Abilities} from '../../src/lib/Ability';
 
 describe('Ability Class', () => {
-	test('Ability Should Exist', () => {
-		expect(Ability).toBeDefined();
-	})
-	describe('Static Config Method', () => {
-		const abilityConfig : IAbilityConfig = {
+	let newAbility: Ability
+	let strAbility: Ability
+	let badAbility: Ability
+	beforeEach(() => {
+		const strConfig: IStrConfig = {
 			name: Abilities.STR,
 			score: 18,
 			proficiencies: {
-				check: false,
-				save: true
-			}
+				save: true,
+				check: true
+			} 
 		}
-		const invalidAbilityConfig: IAbilityConfig = {
-			name: Abilities.WIS,
-			score: 0,
-			proficiencies: {
-				check: false,
-				save: true
-			}
+		const badConfig: IAbilityConfig = {
+			score: -1
 		}
-		const newAbility : Ability | undefined = Ability.Config(abilityConfig);
-		const badNewAbility : Ability | undefined = Ability.Config(invalidAbilityConfig)
-		test('Ability Should Have A Static Method, Config, That Returns A New Instance Of the Ability Class', () =>{
+		newAbility = Ability.Create();
+		strAbility = Ability.Create(strConfig)
+		badAbility = Ability.Create(badConfig);
+	})
+	test('Ability Should Exist', () => {
+		expect(Ability).toBeDefined();
+	})
+	describe('Default New Ability', () => {
+		test('newAbility Should Be An Instance of Ability', () => {
 			expect(newAbility).toBeInstanceOf(Ability);
-		});
-		test('newAbility Should Have A Property, _name, Equal to Abilities.STR', () => {
-			expect(newAbility).toHaveProperty('_name', Abilities.STR);
-		});
-		test('newAbility Should Have Property, _score equal to the number 18', () => {
-			expect(newAbility).toHaveProperty('_score', 18);
-		});
-		test('newAbility Should Have Property, proficiencies, equal to abilityConfig.proficiencies', () => {
-			expect(newAbility).toHaveProperty('proficiencies', abilityConfig.proficiencies)
 		})
-		describe('Bad Ability Config', () => {
-			test('When an invalid score is passed in, badNewAbility should be undefined', () => {
-				expect(badNewAbility).toBeUndefined()
+		test('newAbility Should Have the name, default', () => {
+			expect(newAbility).toHaveProperty('name', 'Default')
+		})
+		test('newAbility Should Have the score, 10', () => {
+			expect(newAbility).toHaveProperty('score', 10)
+		})
+		test('newAbility should have property, proficiencies, equal to the expected object', () => {
+			expect(newAbility).toHaveProperty('proficiencies', {check: false, save: false})
+		})
+		test('newAbility should have property, saveProficiency, equal to false', () => {
+			expect(newAbility).toHaveProperty('saveProficiency', false)
+		})
+		test('newAbility should have property, checkProficiency, equal to false', () => {
+			expect(newAbility).toHaveProperty('checkProficiency', false);
+		})
+		describe('Setter Behaviors', () => {
+		
+			describe('Change Score Method', () => {
+				test('Change Score Method should change the score by the amount provided', () => {
+					const initialScore = newAbility.score;
+					newAbility.changeScore(1)
+					const newScore = newAbility.score
+					expect(newScore).toEqual(initialScore + 1)
+				})
+				test('checkProficiency Setter Should Set checkProficiency to the value provided',() => {
+					const initialCheck = newAbility.checkProficiency
+					newAbility.checkProficiency = true
+					const newCheck = newAbility.checkProficiency
+					expect(initialCheck).toBe(false);
+					expect(newCheck).toBe(true)
+				})
+				test('saveProficiency Setter Should set saveProficiency to the value provided', () => {
+					const initialSave = newAbility.saveProficiency;
+					newAbility.saveProficiency = true
+					const newSave = newAbility.saveProficiency;
+					expect(initialSave).toBe(false);
+					expect(newSave).toBe(true)
+				})
 			})
 		})
-	});
-	describe('Getters and Setters', () => {
-		const abilityConfig : IAbilityConfig = {
-			name: Abilities.WIS,
-			score: 17,
-			proficiencies: {
-				check: false,
-				save: true
-			}
-		}
-
-		const wis = Ability.Config(abilityConfig)
-		let wisMod: number
-		let checkProficiency: boolean
-		let saveProficiency: boolean
-		let score: number
-		let name: abilities
-		if(wis instanceof Ability) {
-			wisMod = wis.modifier
-			checkProficiency = wis.checkProficiency
-			saveProficiency = wis.saveProficiency
-			score = wis.score
-			name = wis.name
-		}
-		describe('Modifier Getter', () => {
-			test('The wis instance of the Ability class should have a public getter, modifier, that correctly returns 3 as the ability score modifier', () => {
-				expect(wisMod).toBe(3);
-			})
+	})
+	describe('Configuration Behavior', () => {
+		test('strAbility Should Have Property, name, equal to Strength', () => {
+			expect(strAbility).toHaveProperty('name', Abilities.STR);
 		})
-		describe('checkProficiency Getter', () => {
-			test('checkProficiency Getter Should return the boolean false', () => {
-				expect(checkProficiency).toBe(false)
-			});
-		});
-		describe('saveProficiency Getter', () => {
-			test('saveProficiency should be the boolean true', () => {
-				expect(saveProficiency).toBe(true);
-			});
-		});
-		describe('score Getter', () => {
-			test('score Getter should get the number 17', () => {
-				expect(score).toBe(17);
-			})
+		test('strAbility Should Have property, score, equal to 18', () => {
+			expect(strAbility).toHaveProperty('score', 18);
 		})
-		describe('name Getter', () => {
-			test('name should be equal to Abilities.WIS', () => {
-				expect(name).toEqual(Abilities.WIS)
-			})
+		test('strAbility Should have property, proficiencies, equal to expected object', () => {
+			expect(strAbility).toHaveProperty('proficiencies', {check: true, save: true});
 		})
-		describe('checkProficiency setter', () => {
-			let newCheckProf:boolean
-			if(wis instanceof Ability) {
-				wis.checkProficiency = true;
-				newCheckProf = wis.checkProficiency
-			}
-			
-			
-			test('Check proficiency setter should change the value of the proficiency to the passed in value', () => {
-				expect(newCheckProf).toBe(true);
-				expect(newCheckProf).not.toEqual(checkProficiency)
-			});
-		});
-		describe('saveProficiency setter', () => {
-			let newSaveProf: boolean
-			if (wis instanceof Ability) {
-				wis.saveProficiency = false
-				newSaveProf = wis.saveProficiency
-			}
-			test('Save proficiency setter should change the value of the proficiency to the passed in value', () => {
-				
-				expect(newSaveProf).toBe(false);
-				expect(newSaveProf).not.toEqual(saveProficiency);
-			});
-		});
-		describe('increaseScore method', () => {
-			let newScore: number
-			if(wis instanceof Ability) {
-				wis.increaseScore(1);
-				newScore = wis.score
-			}
-			test('increase score method should increase the score by 1', () => {
-				expect(newScore).toBe(18);
-				expect(newScore).not.toEqual(score)
-				expect(newScore).toBe(score + 1)
-			})
+		test('strAbility Should have property, checkProficiency, equal to true', () => {
+			expect(strAbility).toHaveProperty('checkProficiency', true);
 		})
-	});
-});
+		test('strAbility Should have property, saveProficiency, equal to true', () => {
+			expect(strAbility).toHaveProperty('saveProficiency', true);
+		})
+		test('badAbility Should have property, score equal to 10', () => {
+			expect(badAbility).toHaveProperty('score', 10)
+		})
+	})
+})
