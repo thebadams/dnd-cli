@@ -30,7 +30,7 @@ interface IClassInfo {
 	level: ClassLevels,
 	hitDie: HitDie
 }
-interface IClass {
+export interface IClass {
 	get name(): string;
 	get level(): ClassLevels;
 	levelUp(): void;
