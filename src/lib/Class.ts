@@ -1,4 +1,8 @@
-enum ClassLevels {
+import { Abilities } from "./Ability"
+import { Armor } from "./Armor"
+import { HitDie } from "./HitDice"
+
+export enum ClassLevels {
 	ONE = 1,
 	TWO,
 	THREE,
@@ -23,22 +27,25 @@ enum ClassLevels {
 
 interface IClassInfo {
 	name: string;
-	level: ClassLevels
+	level: ClassLevels,
+	hitDie: HitDie
 }
 interface IClass {
 	get name(): string;
 	get level(): ClassLevels;
 	levelUp(): void;
 	get info(): IClassInfo;
+	get hitDie() : HitDie
 }
 
-interface IClassConfig {
+export interface IClassConfig {
 	level?: ClassLevels
 }
 
 export default class Class implements IClass {
 	#name: string = Class.name
 	#level: ClassLevels = ClassLevels.ONE
+	#hitDie: HitDie = Class.HITDIE
 
 	constructor(){
 	}
@@ -52,6 +59,32 @@ export default class Class implements IClass {
 			
 		}
 		return newClass;
+	}
+
+	protected static HITDIE : HitDie = HitDie.D6
+	protected static ARMORPROFICIENCIES: Armor[] = []
+	public static get ArmorProficiencies() : Armor[] {
+		return this.ARMORPROFICIENCIES;
+	}
+
+	protected static SAVINGTHROWPROFICIENCIES: Abilities[] = []
+
+	protected static get SavingThrowProficiencies(): Abilities[] | string {
+		if(this.SAVINGTHROWPROFICIENCIES.length = 0) {
+			return `${this.name} Does Not Have Any Saving Throw Proficiencies`
+		} else {
+			return this.SAVINGTHROWPROFICIENCIES
+		}
+	}
+
+	protected static WEAPONPROFICIENCIES: string[] = []
+
+	protected static get WeaponProficiencies() : string[] | string {
+		if(this.WEAPONPROFICIENCIES.length = 0) {
+			return `${this.name} Does Not Have Any Weapon Proficiencies`
+		} else {
+			return this.WEAPONPROFICIENCIES
+		} 
 	}
 
 	public get name(): string {
@@ -69,10 +102,15 @@ export default class Class implements IClass {
 	public get info(): IClassInfo {
 			const info : IClassInfo = {
 				name: this.#name,
-				level: this.#level
+				level: this.#level,
+				hitDie: this.#hitDie
 			}
 
 			return info;
+	}
+
+	public get hitDie(): HitDie {
+			return this.#hitDie
 	}
 
 }
