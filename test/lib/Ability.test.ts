@@ -51,7 +51,9 @@ describe('Ability Class', () => {
 					const newScore = newAbility.score
 					expect(newScore).toEqual(initialScore + 1)
 				})
-				test('checkProficiency Setter Should Set checkProficiency to the value provided',() => {
+			})
+			describe('Proficiency Setters', () => {
+				test('checkProficiency Setter Should Set checkProficiency to the value provided', () => {
 					const initialCheck = newAbility.checkProficiency
 					newAbility.checkProficiency = true
 					const newCheck = newAbility.checkProficiency
@@ -65,6 +67,7 @@ describe('Ability Class', () => {
 					expect(initialSave).toBe(false);
 					expect(newSave).toBe(true)
 				})
+
 			})
 		})
 	})
