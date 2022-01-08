@@ -8,7 +8,9 @@ export enum Abilities {
 	DEF = 'Default'
 }
 
-interface IProficiency {
+export type AbilityTypes = Abilities.STR | Abilities.DEX | Abilities.CON | Abilities.INT | Abilities.WIS |Abilities.CHA | Abilities.DEF
+
+export interface IProficiency {
 	check: boolean;
 	save: boolean;
 }
@@ -56,7 +58,7 @@ interface IChaConfig extends IAbilityConfig {
 }
 
 export default class Ability implements IAbility {
-	#name: Abilities = Abilities.DEF
+	#name: AbilityTypes = Abilities.DEF
 	#score: number = 10
 	#proficiencies: IProficiency = {
 		check: false,
@@ -97,7 +99,7 @@ export default class Ability implements IAbility {
 		}
 	}
 
-	public get name() : Abilities {
+	public get name() : AbilityTypes {
 		return this.#name;
 	}
 	public get score() : number {

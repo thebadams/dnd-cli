@@ -1,5 +1,5 @@
-import { Abilities } from "./Ability"
-import { Armor } from "./Armor"
+import { Abilities, AbilityTypes } from "./Ability"
+import { Armor, ArmorTypes } from "./Armor"
 import { HitDie } from "./HitDice"
 
 export enum ClassLevels {
@@ -25,27 +25,38 @@ export enum ClassLevels {
 	TWENTY
 }
 
+type ClassLevelTypes = ClassLevels.ONE | ClassLevels.TWO | ClassLevels.THREE | ClassLevels.FOUR | ClassLevels.FIVE | ClassLevels.SIX | ClassLevels.SEVEN | ClassLevels.EIGHT | ClassLevels.NINE | ClassLevels.TEN | ClassLevels.ELEVEN | ClassLevels.TWELVE | ClassLevels.THIRTEEN | ClassLevels.FOURTEEN | ClassLevels.FIFTEEN | ClassLevels.SIXTEEN | ClassLevels.SEVENTEEN | ClassLevels.EIGHTEEN | ClassLevels.NINETEEN | ClassLevels.TWENTY; 
+
 interface IClassInfo {
 	name: string;
 	level: ClassLevels,
 	hitDie: HitDie
 }
+
+interface IClassProficiencies {
+	savingThrow: [AbilityTypes, AbilityTypes];
+	armor: ArmorTypes[];
+	weapons: string[];
+	tool: string[];
+	skills: SkillTypes[];
+}
 export interface IClass {
 	get name(): string;
-	get level(): ClassLevels;
+	get level(): ClassLevelTypes;
 	levelUp(): void;
 	get info(): IClassInfo;
 	get hitDie() : HitDie
+	//get proficiencies() : IClassProficiencies
 }
 
 export interface IClassConfig {
-	level?: ClassLevels
+	level?: ClassLevelTypes
 }
 
 export default class Class implements IClass {
-	#name: string = Class.name
-	#level: ClassLevels = ClassLevels.ONE
-	#hitDie: HitDie = Class.HITDIE
+	protected readonly _name: string = this.name
+	protected _level: ClassLevelTypes = ClassLevels.ONE
+	protected readonly _hitDie: HitDie = Class.HITDIE
 
 	constructor(){
 	}
@@ -54,7 +65,7 @@ export default class Class implements IClass {
 		const newClass = new Class()
 		if(config) {
 			if(config.level){
-				newClass.#level = config.level
+				newClass._level = config.level
 			}
 			
 		}
@@ -88,29 +99,34 @@ export default class Class implements IClass {
 	}
 
 	public get name(): string {
-			return this.#name;
+			return this._name;
 	}
 
-	public get level(): ClassLevels {
-			return this.#level
+	public get level(): ClassLevelTypes {
+			return this._level
 	}
 
 	public levelUp(): void {
-			this.#level = this.#level + 1
+			this._level = this._level + 1
 	}
 
 	public get info(): IClassInfo {
 			const info : IClassInfo = {
-				name: this.#name,
-				level: this.#level,
-				hitDie: this.#hitDie
+				name: this._name,
+				level: this._level,
+				hitDie: this._hitDie
 			}
 
 			return info;
 	}
 
 	public get hitDie(): HitDie {
-			return this.#hitDie
+			return this._hitDie
 	}
+	// public get proficiencies(): IClassProficiencies {
+	// 		return {
+	// 			savingThrow: t
+	// 		}
+	// }
 
 }
